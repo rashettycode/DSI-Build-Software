@@ -32,11 +32,12 @@ pip install git+https://github.com/torontodeveloper/dsi-build-software-project
 # on Google Colab
 clone the package first !git clone link to the github repo
 !pip install .
+
 import sys
 sys.argv = ['analysis.py', 'job_config.yml']  # The first argument is ignored, it's just a placeholder for the script name.
 from analysis import Analysis  # Import the Analysis class
 
-# Instantiate and use the Analysis class, the argument is just a placeholder and will be overridden by sys.argv
+Instantiate and use the Analysis class, the argument is just a placeholder and will be overridden by sys.argv
 analysis = Analysis('placeholder_for_job_config')
 
 analysis.plot_data()
