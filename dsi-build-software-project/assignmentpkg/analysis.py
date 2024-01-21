@@ -132,7 +132,7 @@ class Analysis():
         poly1d_fn = np.poly1d(coef) 
         
         # Plot the regression line
-        plt.plot(X.flatten(), poly1d_fn(X.flatten()), '--k', label='Linear Regression') 
+        plt.plot(X.flatten(), poly1d_fn(X.flatten()), '--k', label='Linear Regression')
 # Test the class and plot the graph
 logging.debug('About to instantiate Analysis class')
 analysis = Analysis('test')
