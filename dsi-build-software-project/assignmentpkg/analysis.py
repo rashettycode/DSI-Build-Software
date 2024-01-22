@@ -112,3 +112,6 @@ class Analysis():
     plt.title(f"Number of Articles with {self.config['topic']} in Title per Year")
     plt.legend()
     plt.show()
+# To use the class
+analysis = Analysis()
+analysis.plot_data()
