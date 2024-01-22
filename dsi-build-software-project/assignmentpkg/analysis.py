@@ -76,36 +76,36 @@ class Analysis():
         return pub_date.split("-")[0] if pub_date else None
 
     def plot_data(self, save_path: Optional[str] = None):
-    articles = self.load_data()
+        articles = self.load_data()
 
     # Extract the publication year for each article and convert to integers
-    years = [int(self.extract_year_from_pub_date(article.get("pub_date", ""))) for article in articles if self.extract_year_from_pub_date(article.get("pub_date", ""))]
+        years = [int(self.extract_year_from_pub_date(article.get("pub_date", ""))) for article in articles if self.extract_year_from_pub_date(article.get("pub_date", ""))]
 
     # Count the occurrences of each year
-    year_counts = {year: years.count(year) for year in set(years)}
+        year_counts = {year: years.count(year) for year in set(years)}
 
     # Prepare data for plotting
-    sorted_years = sorted(year_counts.keys())
-    article_counts = [year_counts[year] for year in sorted_years]
+        sorted_years = sorted(year_counts.keys())
+        article_counts = [year_counts[year] for year in sorted_years]
 
     # Calculate the mean of article counts
-    mean_article_count = np.mean(article_counts)
+        mean_article_count = np.mean(article_counts)
 
     # Create a bar plot
-    plt.bar(sorted_years, article_counts, label='Number of Articles')
+        plt.bar(sorted_years, article_counts, label='Number of Articles')
 
     # Plot the mean line
-    plt.axhline(y=mean_article_count, color='r', linestyle='--', label='Mean')
+        plt.axhline(y=mean_article_count, color='r', linestyle='--', label='Mean')
 
     # Perform simple linear regression
-    numeric_years = np.array(sorted_years)
-    X = numeric_years.reshape(-1, 1)
-    y = np.array(article_counts)
-    coef = np.polyfit(X.flatten(), y, 1)
-    poly1d_fn = np.poly1d(coef)
+        numeric_years = np.array(sorted_years)
+        X = numeric_years.reshape(-1, 1)
+        y = np.array(article_counts)
+        coef = np.polyfit(X.flatten(), y, 1)
+        poly1d_fn = np.poly1d(coef)
 
     # Plot the regression line
-    plt.plot(X.flatten(), poly1d_fn(X.flatten()), '--k', label='Linear Regression')
+        plt.plot(X.flatten(), poly1d_fn(X.flatten()), '--k', label='Linear Regression')
 
     plt.xlabel("Year")
     plt.ylabel("Number of Articles")
