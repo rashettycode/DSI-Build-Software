@@ -4,7 +4,7 @@ import argparse
 import yaml
 import requests
 import logging
-import numpy as np
+
 class Analysis():
     def __init__(self, analysis_config: str):
         CONFIG_PATHS =['system_config.yml', 'user_config.yml', 'job_config.yml']
@@ -77,44 +77,32 @@ class Analysis():
 
     def plot_data(self, save_path: Optional[str] = None):
         articles = self.load_data()
-        print(self.config) 
-        articles = self.load_data()
 
-    # Extract the publication year for each article and convert to integers
-        years = [int(self.extract_year_from_pub_date(article.get("pub_date", ""))) for article in articles if self.extract_year_from_pub_date(article.get("pub_date", ""))]
+        # Extract the publication year for each article
+        years = [self.extract_year_from_pub_date(article.get("pub_date", "")) for article in articles]
 
-    # Count the occurrences of each year
+        # Print list of titles and years
+        # print("List of Titles and Years:")
+        for article in articles:
+            title = article.get("headline", {}).get("main")
+            pub_year = self.extract_year_from_pub_date(article.get("pub_date", ""))
+            print(f"Title: {title}, Year: {pub_year}")
+
+        # Count the occurrences of each year
         year_counts = {year: years.count(year) for year in set(years)}
 
-    # Prepare data for plotting
+        # Prepare data for plotting
         sorted_years = sorted(year_counts.keys())
         article_counts = [year_counts[year] for year in sorted_years]
+        topic = self.config['topic']
+        # Create a bar plot
+        plt.bar(sorted_years, article_counts)
+        plt.xlabel("Year")
+        plt.ylabel("Number of Articles")
+        plt.title(f"Number of Articles with {topic} in Title per Year")
+        plt.show()
 
-    # Calculate the mean of article counts
-        mean_article_count = np.mean(article_counts)
-
-    # Create a bar plot
-        plt.bar(sorted_years, article_counts, label='Number of Articles')
-
-    # Plot the mean line
-        plt.axhline(y=mean_article_count, color='r', linestyle='--', label='Mean')
-
-    # Perform simple linear regression
-        numeric_years = np.array(sorted_years)
-        X = numeric_years.reshape(-1, 1)
-        y = np.array(article_counts)
-        coef = np.polyfit(X.flatten(), y, 1)
-        poly1d_fn = np.poly1d(coef)
-
-    # Plot the regression line
-        plt.plot(X.flatten(), poly1d_fn(X.flatten()), '--k', label='Linear Regression')
-
-    plt.xlabel("Year")
-    plt.ylabel("Number of Articles")
-    print(self.config) 
-    plt.title(f"Number of Articles with {self.config['topic']} in Title per Year")
-    plt.legend()
-    plt.show()
-# To use the class
-analysis = Analysis()
+# Test the class and plot the graph
+logging.debug('About to instantiate Analysis class')
+analysis = Analysis('test')
 analysis.plot_data()
