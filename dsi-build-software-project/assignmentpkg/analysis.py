@@ -77,6 +77,8 @@ class Analysis():
 
     def plot_data(self, save_path: Optional[str] = None):
         articles = self.load_data()
+        print(self.config) 
+        articles = self.load_data()
 
     # Extract the publication year for each article and convert to integers
         years = [int(self.extract_year_from_pub_date(article.get("pub_date", ""))) for article in articles if self.extract_year_from_pub_date(article.get("pub_date", ""))]
