@@ -8,6 +8,7 @@ import numpy as np
 class Analysis():
     def __init__(self, analysis_config: str):
         CONFIG_PATHS =['system_config.yml', 'user_config.yml', 'job_config.yml']
+        self.config = analysis.load_config(CONFIG_PATHS, analysis_config)
         parser = argparse.ArgumentParser(description='Analysis package')
         parser.add_argument('job_config', type=str)
         args = parser.parse_args()
